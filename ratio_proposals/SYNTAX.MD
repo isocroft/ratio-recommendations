@@ -1,5 +1,5 @@
 ## SOURCE FILE
-- Source file can be empty, otherwise it must contain a valid set of UTF-8 codepoints.
+- Source file can be empty, otherwise it must contain a valid set of (any 66536) UTF-8 codepoints.
 
 - Support for UTF-8 identifiers is planned.
 
@@ -7,7 +7,7 @@
 ## COMMENTS
 #### Single-line comments
 - Single-line comments start with `#` and `//`
-    ```python
+    ```php
     # Hello, World!
     ```
     ```java
@@ -29,8 +29,11 @@
 ## SUBJECT
 - Subject consist of a subject name and value
 
-    ```cpp
-    const name = "John"
+    ```ratio
+    const name = "John" # implicit definition  as 4 bytes of char type for "John"
+    const char<4> name = "John" # explicit definition as 4 bytes of char type for "John" (a tuple of characters)
+    
+    // a string in ratio is therefore a tuple of characters which are immutable
     ```
 
     Here `name` is the name of the subject and `"John"` the value or object.
@@ -43,7 +46,7 @@
 
 - The `var` keyword is used for subject whose values can change.
     ```js
-    var number = 10
+    var int number = 10
     number = 50 // value changed to 50
     ```
 
@@ -89,11 +92,22 @@
     ```js
     const name = "John Lennon"
     ```
+    
+- An example of a list identifier. More on lists [later](#lists)
+
+```js
+
+    var char<5,4> names = ["Steve", "Kunle", "Chris", "Azeez"] // a list of characters with a length of 4 and each character a length of 5
+```
 
 - An example of a function identifier. More on functions [later](#functions).
 
     ```swift
     func get_number() -> Int {
+        return 20
+    }
+    
+    func get_number(int num) -> Int {
         return 20
     }
     ```
@@ -102,10 +116,95 @@
 
     ```swift
     type Person {
-        name: String,
-        age: Int,
+        name: str,
+        age: int,
     }
     ```
+    
+## ARITHMETIC OPERATION
+- Operations in ratio can either be arithmetic, bitwise, logical, relational or functional
+
+####  functional opearator (binary)
+
+* `~>` (pipe)
+
+#### aritmetic operators (binary)
+
+* `+` (add)
+* `-` (subtract)
+* `*` (multiply)
+* `/` (divide)
+* `%` (modulo)
+* `+=` (rewrite add)
+* `-=` (rewrite subtract)
+
+#### arithmetic operators (unary)
+
+* `++` (increment)
+* `--` (decrement)
+
+#### logical operators (binary)
+
+* `&&` (and)
+* `and` (and)
+* `||` (or)
+* `or` (or)
+
+#### logical operators (unary)
+
+* `!` (not)
+* `not` (not)
+
+#### relational operators (binary)
+
+* `<`
+* `>`
+* `>=`
+* `<=`
+* `!=`
+* `!==`
+
+#### bitwise operators (binary)
+
+* `>>`
+
+```js
+
+var item = 3
+
+print(--item) // 2
+print(++item) // 3
+
+```
+
+## ARRAYS ( Mutable / Immutable )
+- Arrays in ratio will serve as an array of variables of unmixed or mixed types
+
+>mutable arrays (lists) are defined using `var`
+```js
+
+var int<4> list = [1, 2, 3, 4]
+
+list[0] = 0
+
+print(list); # 0, 2, 3, 4
+
+```
+
+>immutable arrays (tuples) are defined using `const`
+
+```js
+
+const int<2> = [1, 5]; # you can't add or remove from the tuple but you can change the content at all indexes
+
+```
+
+- Array of a complex type in ratio
+
+```js
+
+var Person<3> = [ {name: "Tochukwu Nkedilim", age: 27}, {name: "Ikechi Micheal", age: 29}, {name: "Azeez Adewale", age: 26} ]
+```
 
 ## SEMI COLONS
 - Semi colons are used to separate multiple statements or expressions.
@@ -140,35 +239,60 @@
 - Subjects can be explicitly type-annotated.
 
     ```js
-    var identification: Int = 60
+    var int identification = 60
     ```
 
 - Functions can also be explicitly type-annotated.
 
     ```swift
-    func add(a: Int, b: Int) -> Int {
+    func add(a int, b int) -> Int {
         return a + b
     }
     ```
 
+## CONCATENATION ( OVERLOADED OPERATORS - PART 1 )
+
+- The concatenation symbol for ratio is `++`
+
+```swift
+func sort(arr) -> Int {
+   
+}
+```
+
+>the pipe operator `~>` can also be used to sort the resulting list
+```elixir
+
+var int<8> numbers = [1,3,5,7] ++ [0,2,4,6] ~> sort
+
+```
+
+- The concatenation symbol can also be used to join for a list of characters (strings) in ratio
+
+```elixir
+
+
+```
 
 ## DESTRUCTURING
 - Destructuring a tuple.
 
     ```js
-    const (name, age) = ("John", 50)
+    const tuple = ["John", 50];
+    const (name, age) = tuple
     ```
 
 - Destructuring a list.
 
     ```js
-    const [..., last] = [1, 2, 3, 4, 5]
+    var list = [1, 2, 3, 4, 5];
+    const [..., last] = list
     ```
 
-- Destructuring an object.
+- Destructuring an object (or dictionary).
 
     ```js
-    const {name, age} = john
+    const { name, age } = john
     ```
 
 ## IF EXPRESSION
@@ -199,6 +323,20 @@
         print(stock_code)
     }
     ```
+    
+## CASE EXPRESSION
+- Conditional branching using `case`
+
+```elixir
+
+var num = 3
+case num {
+   1 ?? print("Hello, i am 1")
+   2 ?? print("Hello, i am 2")
+   3 ?? print("Hello, i am 3")
+}
+
+```
 
 ## FOR LOOP
 - A `for` loop iterates through an iterable and binds the value to a subject.
@@ -208,14 +346,43 @@
         print(i)
     }
     ```
+ - for loop can also break using a label
+ ```js
 
-- Destructuring in loop.
+    loop_1:
+    for i in 1:50 {
+        if i == 29 {
+            break loop_1
+        }
+    }
+
+```
+- Destructuring of a tuple in loop.
 
     ```py
+    const interesting_numbers = ["int", 13];
     for (kind, number) in interesting_numbers {
         print(kind, number)
     }
     ```
+    
+- Destructuring of a list in loop.
+
+    ```py
+    var interesting_numbers = ["int", 13];
+    for [ kind, number ] in interesting_numbers {
+        print(kind, number)
+    }
+    ```
+    
+ - Destructuring of an object in loop.
+
+    ```py
+    var interesting_numbers = { kind: "int", number: 13 };
+    for { kind, number } in interesting_numbers {
+        print(kind, number)
+    }
+  ```
 
 - A `for` loop can be extended with a `where` condiition.
     ```swift
@@ -234,13 +401,22 @@
         }
         print(num) //59
     ```
-
+    
+- for loop can copy out the contents of an array into another array variable
     ```js
-        const num = for i in array {
-            
+        const int num = for i in array {
+           pass
         }
         print(num) //array[array.length-1]
     ```
+    
+- for loop can transform an array into another array variable
+
+```js
+    const char<,> num = for (index, letter) in array {
+        return "'" ++ letter ++ "'"
+    }
+```
 
 - break cannot be used in a for loop that is expected to return a value but can be used to break out of the iteration if not return value is expected.
 
