@@ -404,7 +404,7 @@ case num {
 }
 ```
 
-## FOR LOOP
+## FOR EXPRESSION { LOOP }
 - A `for` loop iterates through an iterable and binds the value at each index or pocket of the iterable to a subject.
 
     ```py
@@ -510,7 +510,7 @@ case num {
             var += i
         }
  ```
-## WHILE LOOP
+## WHILE EXPRESSION { LOOP }
 - A `while` loop iterates by a condition until that condition is false
 
 ```js
@@ -521,7 +521,10 @@ while cond4 {
 
 ```
 
-## UNTIL LOOP
+## DO WHILE EXPRESSION { LOOP }
+- A `while` loop iterates by a condition until that condition is false
+
+## UNTIL EXPRESSION { LOOP }
 - An `until` loop iterates by a condition until that condition is true
 
 ```cargo
