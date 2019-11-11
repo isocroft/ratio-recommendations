@@ -204,7 +204,7 @@ var int<4> list = [1, 2, 3, 4]
 
 list[0] = 0 // No error
 
-print(list); # 0, 2, 3, 4
+print(list); // 0, 2, 3, 4
 
 ```
 
@@ -216,13 +216,18 @@ const int<2> tuple = [1, 5]; # you can't add or remove from the tuple but you ca
 
 tuple[0] = 2 // No error
 
+print(tuple); // 2, 5
 ```
 
 - Array of a complex type in ratio
 
 ```js
 
-var Person<3> = [ {name: "Tochukwu Nkedilim", age: 27}, {name: "Ikechi Micheal", age: 29}, {name: "Azeez Adewale", age: 26} ]
+var Person<3> persons = [ 
+   {name: "Tochukwu Nkedilim", age: 27}, 
+   {name: "Ikechi Micheal", age: 29}, 
+   {name: "Azeez Adewale", age: 26} 
+]
 ```
 
 ## SEMI COLONS
@@ -288,7 +293,7 @@ var int<8> numbers = [1,3,5,7] ++ [0,2,4,6] ~> sort
 
 - The concatenation symbol can also be used to join for a list of characters (strings) in ratio
 
-```py
+```elixir
 
 print("Hello " ++ "World");
 
@@ -323,9 +328,10 @@ print("Hello " ++ "World");
     const { name, age } = john
     ```
 
-## IF EXPRESSION
+## IF / UNLESS EXPRESSION
 - Conditional branches using `if`, `unless`, `else if` and `else`.
 
+>Checking conditions using `if`
     ```swift
     if cond1 {
         print("if")
@@ -336,8 +342,7 @@ print("Hello " ++ "World");
     }
     ```
     
-- Checking conditions using `unless`
-
+>Checking conditions using `unless`
 ```r
 
 unless cond3 {
@@ -348,13 +353,20 @@ unless cond3 {
 
 ```
 
-- Checking for falsy values.
+>Checking for falsy values using `if`.
 
-    ```swift
+```swift
     if !complete { 
         print("incomplete")
     }
-    ```
+```
+>Checking for falsy values using `unless`.
+ 
+```swift
+    unless !complete { 
+        print("incomplete")
+    }
+```
 
 - Checking for Noneness and binding value to a name.
 
@@ -512,7 +524,7 @@ while cond4 {
 ## UNTIL LOOP
 - An `until` loop iterates by a condition until that condition is true
 
-```lang
+```cargo
 
 var num = 5
 until num === 0 {
@@ -557,12 +569,12 @@ until num === 0 {
 - Declare a function
 
     ```swift
-    func add(a: Int, b: Int) -> Int {
+    func add(a int, b int) -> int {
         return a + b
     }
     ```
 
-- Functions have types. For the example above, we say `add` has type `(Int, Int) -> Int`.
+- Functions have types. For the example above, we say `add` has type `(int, int) -> int`.
 
 - Functions are first-class objects in Ratio, so there is support for closures and higher-order functions.
 
