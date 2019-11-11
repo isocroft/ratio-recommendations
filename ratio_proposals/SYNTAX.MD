@@ -25,15 +25,32 @@
      * And they end with `*/`.
      */
     ```
+## DATA TYPES
+- Data types in ratio
+
+* int > a sequence of symbols from the standard number set (e.g. 2489)
+* long > two or more `int` type(s) put together as a sequence (e.g. 1267383994747489948947333344747)
+* float >
+* char > a single symbol from the standard chracter set ('$')
+* str > two or more `char` type(s) put together ('$rw32')
+* bool > true, false
+* byte > |01011010, |10010011
 
 ## SUBJECT
 - Subject consist of a subject name and value
 
-    ```ratio
-    const name = "John" # implicit definition  as 4 bytes of char type for "John"
-    const char<4> name = "John" # explicit definition as 4 bytes of char type for "John" (a tuple of characters)
+    ```js
+    const num = 2561 // implicit definition as 4 bytes of int type for 2561
+    const int num = 2561 // explicit definition as 4 bytes of int type for 2561
+    
+    ```
+
+    ```js
+    const name = "John" // implicit definition as 4 bytes of char type for "John"
+    const char<4> name = "John" // explicit definition as 4 bytes of char type for "John" (a tuple of characters)
     
     // a string in ratio is therefore a tuple of characters which are immutable
+    const str name = "John"
     ```
 
     Here `name` is the name of the subject and `"John"` the value or object.
@@ -97,17 +114,17 @@
 
 ```js
 
-    var char<5,4> names = ["Steve", "Kunle", "Chris", "Azeez"] // a list of characters with a length of 4 and each character a length of 5
+    var char<5,4> names = ["Steve", "Kunle", "Chris", "Azeez"] // a list of strings with a length of 4 and each string a length of 5
 ```
 
 - An example of a function identifier. More on functions [later](#functions).
 
     ```swift
-    func get_number() -> Int {
+    func get_number() -> int {
         return 20
     }
     
-    func get_number(int num) -> Int {
+    func get_number(int num) -> int {
         return 20
     }
     ```
@@ -185,7 +202,7 @@ print(++item) // 3
 
 var int<4> list = [1, 2, 3, 4]
 
-list[0] = 0
+list[0] = 0 // No error
 
 print(list); # 0, 2, 3, 4
 
@@ -195,7 +212,9 @@ print(list); # 0, 2, 3, 4
 
 ```js
 
-const int<2> = [1, 5]; # you can't add or remove from the tuple but you can change the content at all indexes
+const int<2> tuple = [1, 5]; # you can't add or remove from the tuple but you can change the content at all indexes
+
+tuple[0] = 2 // No error
 
 ```
 
@@ -225,7 +244,7 @@ var Person<3> = [ {name: "Tochukwu Nkedilim", age: 27}, {name: "Ikechi Micheal",
 ## TYPE ANNOTATION
 - Types can be automatically inferred in Ratio.
     ```js
-    var todo = "Create a new programming language :)" // `todo` is inferred as `String`
+    var todo = "Create a new programming language :)" // `todo` is inferred as `str` (String)
     ```
 
     ```cpp
@@ -233,7 +252,7 @@ var Person<3> = [ {name: "Tochukwu Nkedilim", age: 27}, {name: "Ikechi Micheal",
         return a + b
     }
 
-    const sum = add(1, 1) // Usage of `add` inferred as `(Int, Int) -> Int` here.
+    const sum = add(1, 1) // Usage of `add` inferred as `(int, int) -> int` here.
     ```
 
 - Subjects can be explicitly type-annotated.
@@ -245,17 +264,17 @@ var Person<3> = [ {name: "Tochukwu Nkedilim", age: 27}, {name: "Ikechi Micheal",
 - Functions can also be explicitly type-annotated.
 
     ```swift
-    func add(a int, b int) -> Int {
+    func add(a int, b int) -> int {
         return a + b
     }
     ```
 
-## CONCATENATION ( OVERLOADED OPERATORS - PART 1 )
+## CONCATENATION ( OVERLOADED OPERATOR - `++` )
 
 - The concatenation symbol for ratio is `++`
 
 ```swift
-func sort(arr) -> Int {
+func sort(arr) -> int {
    
 }
 ```
@@ -269,12 +288,19 @@ var int<8> numbers = [1,3,5,7] ++ [0,2,4,6] ~> sort
 
 - The concatenation symbol can also be used to join for a list of characters (strings) in ratio
 
-```elixir
+```py
 
+print("Hello " ++ "World");
 
 ```
 
 ## DESTRUCTURING
+- Destructuring a string.
+
+```js
+
+  const [...chars] = "Happy Birthday!"
+```
 - Destructuring a tuple.
 
     ```js
@@ -287,16 +313,18 @@ var int<8> numbers = [1,3,5,7] ++ [0,2,4,6] ~> sort
     ```js
     var list = [1, 2, 3, 4, 5];
     const [..., last] = list
+    const [first, ... , last] = list
     ```
 
 - Destructuring an object (or dictionary).
 
     ```js
+    const john = { name: "Funke Aderonke", age: 45 };
     const { name, age } = john
     ```
 
 ## IF EXPRESSION
-- Conditional branches using `if`, `else if` and `else`.
+- Conditional branches using `if`, `unless`, `else if` and `else`.
 
     ```swift
     if cond1 {
@@ -307,6 +335,18 @@ var int<8> numbers = [1,3,5,7] ++ [0,2,4,6] ~> sort
         print("else ")
     }
     ```
+    
+- Checking conditions using `unless`
+
+```r
+
+unless cond3 {
+  print("unless")
+} else {
+  print("else ")
+}
+
+```
 
 - Checking for falsy values.
 
@@ -338,11 +378,32 @@ case num {
 
 ```
 
+- Can also detect default cases using `else`
+
+```elixir
+
+var num = 5
+case num {
+   1 ?? print("Hello, i am 1")
+   2 ?? print("Hello, i am 2")
+   3 ?? print("Hello, i am 3")
+} else {
+   print("Hello, i am ${num}") // using a string literal
+}
+```
+
 ## FOR LOOP
-- A `for` loop iterates through an iterable and binds the value to a subject.
+- A `for` loop iterates through an iterable and binds the value at each index or pocket of the iterable to a subject.
 
     ```py
-    for i in 1:11 {
+    for i in 1:11 { # default step is 1
+        print(i)
+    }
+    ```
+- A `for` loop with step argument
+
+```py
+    for i in 1:11,2 { # step is now 2
         print(i)
     }
     ```
@@ -355,89 +416,110 @@ case num {
             break loop_1
         }
     }
-
 ```
-- Destructuring of a tuple in loop.
+- Destructuring of a tuple in a for loop.
 
-    ```py
+ ```py
     const interesting_numbers = ["int", 13];
     for (kind, number) in interesting_numbers {
         print(kind, number)
     }
-    ```
+ ```
     
-- Destructuring of a list in loop.
+- Destructuring of a list in a for loop.
 
-    ```py
+ ```py
     var interesting_numbers = ["int", 13];
     for [ kind, number ] in interesting_numbers {
         print(kind, number)
     }
-    ```
+ ```
     
- - Destructuring of an object in loop.
+- Destructuring of an object in loop.
 
-    ```py
+```py
     var interesting_numbers = { kind: "int", number: 13 };
     for { kind, number } in interesting_numbers {
         print(kind, number)
     }
-  ```
+```
 
 - A `for` loop can be extended with a `where` condiition.
-    ```swift
+    
+ ```swift
     for i in array where i%2 == 0 {
         print(i)
     }
-    ```
+ ```
+- A `for` loop must return a value if it an expression for subject assignment is nothing is returned the last value is returned.
 
-- for loop must return a value if it an expression for subject assignment is nothing is returned the last value is returned.
-
-    ```js
+ ```js
         const num = for i in 1:100 {
             if i == 59 {
                 return i
             }
         }
         print(num) //59
-    ```
+ ```
     
-- for loop can copy out the contents of an array into another array variable
-    ```js
+- A `for` loop can copy out the contents of an array into another array variable
+    
+ ```py
         const int num = for i in array {
            pass
         }
         print(num) //array[array.length-1]
-    ```
+ ```
     
-- for loop can transform an array into another array variable
+- A `for` loop can transform an array into another array variable
 
 ```js
-    const char<,> num = for (index, letter) in array {
+    const str<> num = for letter in array {
         return "'" ++ letter ++ "'"
     }
 ```
 
-- break cannot be used in a for loop that is expected to return a value but can be used to break out of the iteration if not return value is expected.
+- A `break` cannot be used in a `for` loop that is expected to return a value but can be used to break out of the iteration if not return value is expected.
 
-    ```js
+ ```js
         const num = for i in 1:100 {
             if i == 59 {
                 break //Invalid. Error
             }
         }
-    ```
+ ```
 
-    ```js
+ ```js
         var result = 0
-        for i in 1:100 {
+        for i in 1:100,1 {
             if i == 59 {
                 break //valid
             } 
             var += i
         }
-    ```
+ ```
+## WHILE LOOP
+- A `while` loop iterates by a condition until that condition is false
 
+```js
+
+while cond4 {
+   print("cond4 is still true")
+}
+
+```
+
+## UNTIL LOOP
+- An `until` loop iterates by a condition until that condition is true
+
+```lang
+
+var num = 5
+until num === 0 {
+   print("num is not yet zero"); --num
+}
+
+```
 ## EXPRESSION ORIENTED
 - Almost everything in Ratio (save a few constructs like impl, trait, type and import) is an expression!
 
@@ -498,7 +580,7 @@ case num {
 - An example of a higher-order function
 
     ```swift
-    func map(arr: [Int], f: (Int) -> Int) -> [Int] {
+    func map(int arr, f: (int) -> int) -> [int] {
         var new_arr = []
         for (index, item) in enumerate(arr) {
             new_arr[index] = f(item)
@@ -515,7 +597,7 @@ case num {
 - Function assigned to a subject
 
     ```swift
-    const forwardAdd = func(numbers: ..Int) -> Int {
+    const forwardAdd = func(numbers: ..int) -> int {
         var result = 0
         for number in numbers {
             result += number
@@ -575,7 +657,7 @@ case num {
 
     ```swift
     impl Person {
-        func get_name(self) -> String {
+        func get_name(self) -> str {
             self.name
         }
     }
@@ -606,7 +688,7 @@ case num {
     ```
 
     ```
-    window = Window {
+    var Window window = {
         title: "Hello World",
         extended: true
     }
@@ -618,7 +700,7 @@ case num {
 - A regular function can be called using both the dot notation call syntax or the regular function call syntax.
 
     ```swift
-    func get_name(p: Person) -> String {
+    func get_name(p: Person) -> str {
         p.name
     }
 
@@ -632,7 +714,7 @@ case num {
 
     ```swift
     impl Person {
-        func get_name(self) -> String {
+        func get_name(self) -> str {
             self.name
         }
     }
@@ -781,11 +863,11 @@ Sometimes it makes sense to have certain functions be instance methods because t
 - Calling a generic function or type.
 
     ```julia
-    const arr = map:[Int]([1, 2, 3], (i) => i³)
+    const arr = map:[int]([1, 2, 3], (i) => i³)
     ```
 
     ```julia
-    const buf = Buffer::new:[Int]()
+    const buf = Buffer::new:[int]()
     ```
 
 - Sometimes the compiler can infer the type parameters of a generic type or function from its arguments so you don't have to specify it.
