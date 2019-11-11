@@ -524,6 +524,12 @@ while cond4 {
 ## DO WHILE EXPRESSION { LOOP }
 - A `while` loop iterates by a condition until that condition is false
 
+```js
+  do {
+     print("a do while loop...")
+  } while cond6
+```
+
 ## UNTIL EXPRESSION { LOOP }
 - An `until` loop iterates by a condition until that condition is true
 
@@ -535,6 +541,20 @@ until num === 0 {
 }
 
 ```
+
+## TRY / CATCH EXPRESSION { ERROR HANDLING }
+- A `try` / `catch` is used to deal with exceptional cases where code desn't work as expected
+
+```js
+
+try {
+   var quotient = num / 2 // num is not defined
+} catch err {
+   print("an error occured: ${err.message}")
+}
+
+```
+
 ## EXPRESSION ORIENTED
 - Almost everything in Ratio (save a few constructs like impl, trait, type and import) is an expression!
 
